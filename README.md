@@ -8,9 +8,9 @@ Wraps the initialization tasks of a backend service.
 * Bootstrap parameter returned by a query of a given uri with retries
 * MQTT client connection via [mqtt-topping](https://www.npmjs.com/package/mqtt-topping)
 
-### Usage
+## Usage
 
-#### Using Promises
+### Using Promises
 
 ```javascript
 var init = require("service-init");
@@ -23,7 +23,7 @@ init(serviceId, bootstrapUri).then(({ log, mqtt, bootstrapParam1, bootstrapParam
 });
 ```
 
-#### Using Babel & Async Functions
+### Using Babel & Async Functions
 
 ```javascript
 import init from "service-init";
