@@ -17,7 +17,7 @@ export default async function Init(serviceId, bootstrapUrl) {
     data.httpBrokerUri
   )
 
-  return Object.assign({ log, mqttClient }, data)
+  return { log, mqttClient, ...data }
 }
 
 function createLogger(serviceId) {
