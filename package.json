@@ -1,0 +1,33 @@
+{
+  "name": "service-init",
+  "version": "0.1.0",
+  "description": "Custom mqtt, log and bootstrap service initialization",
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/main.js",
+  "scripts": {
+    "prepublish": "babel main.js --out-dir dist --source-maps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artcom/service-init.git"
+  },
+  "dependencies": {
+    "axios": "^0.13.1",
+    "bunyan": "^1.8.1",
+    "mqtt-topping": "^0.6.5"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-eslint": "^6.1.2",
+    "babel-plugin-syntax-async-functions": "^6.8.0",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
+    "babel-register": "^6.9.0",
+    "eslint": "^2.13.1",
+    "eslint-config-artcom": "^0.3.3",
+    "eslint-plugin-import": "^1.10.3"
+  },
+  "license": "MIT"
+}
