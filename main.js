@@ -2,7 +2,7 @@ import axios from "axios"
 import topping from "mqtt-topping"
 import bunyan from "bunyan"
 
-export default async function Init(serviceId, bootstrapUrl) {
+export default async function init(serviceId, bootstrapUrl) {
   const log = createLogger(serviceId)
 
   log.info({ bootstrapUrl }, "Retrieving bootstrap data")
