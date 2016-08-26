@@ -13,7 +13,7 @@ export default async function init(serviceId, bootstrapUrl) {
   const { device, tcpBrokerUri, httpBrokerUri } = data
 
   const clientId = createClientId(serviceId, device)
-  log.info({ tcpBrokerUri, httpBrokerUri, clientId }, "Connecting to broker")
+  log.info({ tcpBrokerUri, httpBrokerUri, clientId }, "Connecting to Broker")
   const mqttClient = topping.connect(tcpBrokerUri, httpBrokerUri, clientId)
 
   mqttClient.on("connect", () => { log.info("Connected to Broker") })
