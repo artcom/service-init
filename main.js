@@ -6,11 +6,11 @@ export default async function init(serviceId, bootstrapUrl) {
   const log = createLogger(serviceId)
 
   log.info({ bootstrapUrl }, "Retrieving bootstrap data")
-  const data = await queryBootstrapData(bootstrapUrl)
+  const bootstrapData = await queryBootstrapData(bootstrapUrl)
 
-  log.info({ data }, "Bootstrap data retrieved")
+  log.info({ bootstrapData }, "Bootstrap data retrieved")
 
-  const { device, tcpBrokerUri, httpBrokerUri } = data
+  const { device, tcpBrokerUri, httpBrokerUri } = bootstrapData
 
   const clientId = createClientId(serviceId, device)
   log.info({ tcpBrokerUri, httpBrokerUri, clientId }, "Connecting to Broker")
@@ -20,7 +20,7 @@ export default async function init(serviceId, bootstrapUrl) {
   mqttClient.on("close", () => { log.error("Disconnected from Broker") })
   mqttClient.on("error", () => { log.error("Error Connecting to Broker") })
 
-  return { log, mqttClient, ...data }
+  return { log, mqttClient, bootstrapData }
 }
 
 function createLogger(serviceId) {
