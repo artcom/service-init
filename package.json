@@ -14,7 +14,7 @@
     "url": "https://github.com/artcom/service-init.git"
   },
   "dependencies": {
-    "axios": "^0.13.1",
+    "axios": "^0.14.0",
     "bunyan": "^1.8.1",
     "mqtt-topping": "^0.6.5"
   },
@@ -24,9 +24,9 @@
     "babel-plugin-syntax-async-functions": "^6.8.0",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.10.3",
-    "eslint": "^2.13.1",
-    "eslint-config-artcom": "^0.3.3",
-    "eslint-plugin-import": "^1.10.3"
+    "eslint": "^3.4.0",
+    "eslint-config-artcom": "^0.4.0",
+    "eslint-plugin-import": "^1.8.1"
   },
   "license": "MIT"
 }
