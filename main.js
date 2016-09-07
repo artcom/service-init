@@ -5,17 +5,12 @@ import bunyan from "bunyan"
 export default async function init(serviceId, bootstrapUrl) {
   const log = createLogger(serviceId)
 
-  let bootstrapData = null
-  if (bootstrapUrl) {
-    log.info({ bootstrapUrl }, "Retrieving bootstrap data")
-    bootstrapData = await queryBootstrapData(bootstrapUrl)
-    log.info({ bootstrapData }, "Bootstrap data retrieved")
-  } else {
-    bootstrapData = Object.assign({}, process.env)
-    log.info({ bootstrapData }, "Using environment bootstrap data")
-  }
-
-  const { device, tcpBrokerUri, httpBrokerUri } = bootstrapData
+  const {
+    device,
+    tcpBrokerUri,
+    httpBrokerUri,
+    bootstrapData
+  } = await getBootstrapData(bootstrapUrl, log)
 
   const clientId = createClientId(serviceId, device)
   log.info({ tcpBrokerUri, httpBrokerUri, clientId }, "Connecting to Broker")
@@ -34,6 +29,31 @@ function createLogger(serviceId) {
     level: "debug",
     serializers: { error: bunyan.stdSerializers.err }
   })
+}
+
+async function getBootstrapData(bootstrapUrl, log) {
+  if (bootstrapUrl) {
+    log.info({ bootstrapUrl }, "Retrieving bootstrap data")
+    const bootstrapData = await queryBootstrapData(bootstrapUrl)
+    log.info({ bootstrapData }, "Bootstrap data retrieved")
+
+    return {
+      tcpBrokerUri: bootstrapData.tcpBrokerUri,
+      httpBrokerUri: bootstrapData.httpBrokerUri,
+      device: bootstrapData.device,
+      bootstrapData
+    }
+  } else {
+    log.info("Using environment bootstrap data")
+    const bootstrapData = Object.assign({}, process.env)
+
+    return {
+      tcpBrokerUri: bootstrapData.TCP_BROKER_URI,
+      httpBrokerUri: bootstrapData.HTTP_BROKER_URI,
+      device: bootstrapData.DEVICE,
+      bootstrapData
+    }
+  }
 }
 
 function queryBootstrapData(url) {
