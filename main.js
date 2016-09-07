@@ -14,7 +14,7 @@ export default async function init(serviceId, bootstrapUrl) {
 
   const clientId = createClientId(serviceId, device)
   log.info({ tcpBrokerUri, httpBrokerUri, clientId }, "Connecting to Broker")
-  const mqttClient = topping.connect(tcpBrokerUri, httpBrokerUri, clientId)
+  const mqttClient = topping.connect(tcpBrokerUri, httpBrokerUri, { clientId })
 
   mqttClient.on("connect", () => { log.info("Connected to Broker") })
   mqttClient.on("close", () => { log.error("Disconnected from Broker") })
