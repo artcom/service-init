@@ -5,10 +5,15 @@ import bunyan from "bunyan"
 export default async function init(serviceId, bootstrapUrl) {
   const log = createLogger(serviceId)
 
-  log.info({ bootstrapUrl }, "Retrieving bootstrap data")
-  const bootstrapData = await queryBootstrapData(bootstrapUrl)
-
-  log.info({ bootstrapData }, "Bootstrap data retrieved")
+  let bootstrapData = null
+  if (bootstrapUrl) {
+    log.info({ bootstrapUrl }, "Retrieving bootstrap data")
+    bootstrapData = await queryBootstrapData(bootstrapUrl)
+    log.info({ bootstrapData }, "Bootstrap data retrieved")
+  } else {
+    bootstrapData = Object.assign({}, process.env)
+    log.info({ bootstrapData }, "Using environment bootstrap data")
+  }
 
   const { device, tcpBrokerUri, httpBrokerUri } = bootstrapData
 
@@ -44,5 +49,10 @@ function delay(time) {
 }
 
 function createClientId(serviceId, device) {
-  return `${serviceId}-${device}-${Math.random().toString(16).substr(2, 8)}`
+  const uuid = Math.random().toString(16).substr(2, 8)
+  if (device) {
+    return `${serviceId}-${device}-${uuid}`
+  } else {
+    return `${serviceId}-${uuid}`
+  }
 }
