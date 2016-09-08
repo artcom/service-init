@@ -2,7 +2,7 @@ import axios from "axios"
 import topping from "mqtt-topping"
 import bunyan from "bunyan"
 
-export default async function init(serviceId, bootstrapUrl) {
+export default async function init(serviceId, bootstrapUrl, callback) {
   const log = createLogger(serviceId)
 
   const {
@@ -20,7 +20,11 @@ export default async function init(serviceId, bootstrapUrl) {
   mqttClient.on("close", () => { log.error("Disconnected from Broker") })
   mqttClient.on("error", () => { log.error("Error Connecting to Broker") })
 
-  return { log, mqttClient, bootstrapData }
+  try {
+    await callback(log, mqttClient, bootstrapData)
+  } catch (error) {
+    log.error(error)
+  }
 }
 
 function createLogger(serviceId) {
