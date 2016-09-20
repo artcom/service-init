@@ -10,29 +10,13 @@ Wraps the initialization tasks of a backend service.
 
 ## Usage
 
-### Using Promises
-
 ```javascript
 var init = require("service-init");
 
 var serviceId = "myService";
-var bootstrapUri = "http://bootstrap-server.com/myService";
+var bootstrapUri = "http://bootstrap-server.com/myService"; // process.env is used for bootstrapping if null
 
-init(serviceId, bootstrapUri).then(({ log, mqtt, bootstrapParam1, bootstrapParam2 }) => {
+init(serviceId, bootstrapUri, (log, mqttClient, bootstrapData) => {
   // application logic goes here
 });
-```
-
-### Using Babel & Async Functions
-
-```javascript
-import init from "service-init";
-
-var serviceId = "myService";
-var bootstrapUri = "http://bootstrap-server.com/myService";
-
-async function main() {
-  const { log, mqtt, bootstrapParam1, bootstrapParam2 } = await init(serviceId, bootstrapUri);
-  // application logic goes here
-}()
 ```
