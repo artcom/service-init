@@ -1,5 +1,5 @@
 const axios = require("axios")
-const topping = require("mqtt-topping")
+const topping = require("mqtt-topping").default
 const bunyan = require("bunyan")
 
 module.exports = async function init(serviceId, bootstrapUrl, callback) {
