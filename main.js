@@ -4,13 +4,14 @@ const bunyan = require("bunyan")
 
 export default async function init(serviceId, bootstrapUrl, callback) {
   const log = createLogger(serviceId)
+  const bootstrapData = await getBootstrapData(bootstrapUrl, log)
 
   const {
     device,
     tcpBrokerUri,
     httpBrokerUri,
-    bootstrapData
-  } = await getBootstrapData(bootstrapUrl, log)
+    gitJsonApiUri
+  } = bootstrapData
 
   const clientId = createClientId(serviceId, device)
   log.info({ tcpBrokerUri, httpBrokerUri, clientId }, "Connecting to Broker")
@@ -20,8 +21,10 @@ export default async function init(serviceId, bootstrapUrl, callback) {
   mqttClient.on("close", () => { log.error("Disconnected from Broker") })
   mqttClient.on("error", () => { log.error("Error Connecting to Broker") })
 
+  const queryConfig = createConfigQuery(gitJsonApiUri)
+
   try {
-    await callback(log, mqttClient, bootstrapData)
+    await callback(log, mqttClient, queryConfig, bootstrapData)
   } catch (error) {
     log.error(error)
   }
@@ -41,22 +44,17 @@ async function getBootstrapData(bootstrapUrl, log) {
     const bootstrapData = await queryBootstrapData(bootstrapUrl)
     log.info({ bootstrapData }, "Bootstrap data retrieved")
 
-    return {
-      tcpBrokerUri: bootstrapData.tcpBrokerUri,
-      httpBrokerUri: bootstrapData.httpBrokerUri,
-      device: bootstrapData.device,
-      bootstrapData
-    }
+    return bootstrapData
   } else {
-    log.info("Using environment bootstrap data")
-    const bootstrapData = Object.assign({}, process.env)
-
-    return {
-      tcpBrokerUri: bootstrapData.TCP_BROKER_URI,
-      httpBrokerUri: bootstrapData.HTTP_BROKER_URI,
-      device: bootstrapData.DEVICE,
-      bootstrapData
+    const bootstrapData = {
+      tcpBrokerUri: process.env.TCP_BROKER_URI,
+      httpBrokerUri: process.env.HTTP_BROKER_URI,
+      gitJsonApiUri: process.env.GIT_JSON_API_URI,
+      device: process.env.DEVICE
     }
+
+    log.info({ bootstrapData }, "Using environment bootstrap data")
+    return bootstrapData
   }
 }
 
@@ -79,4 +77,10 @@ function createClientId(serviceId, device) {
   } else {
     return `${serviceId}-${uuid}`
   }
+}
+
+function createConfigQuery(gitJsonApiUri) {
+  return gitJsonApiUri
+    ? config => axios(`${gitJsonApiUri}/master/config/${config}`)
+    : null
 }
