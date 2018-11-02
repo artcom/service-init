@@ -7,26 +7,25 @@
   ],
   "main": "dist/main.js",
   "scripts": {
-    "prepublish": "babel main.js --out-dir dist --source-maps"
+    "lint": "eslint main.js",
+    "prepublishOnly": "babel main.js --out-dir dist --source-maps"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/artcom/service-init.git"
   },
   "dependencies": {
-    "axios": "^0.16.1",
-    "bunyan": "^1.8.10",
-    "mqtt-topping": "^0.7.1"
+    "axios": "^0.18.0",
+    "bunyan": "^1.8.12",
+    "mqtt-topping": "^0.8.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-eslint": "^7.2.1",
-    "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-async-to-generator": "^6.24.1",
-    "babel-plugin-transform-es2015-modules-commonjs": "^6.24.1",
-    "eslint": "^3.19.0",
-    "eslint-config-artcom": "^0.5.1",
-    "eslint-plugin-import": "^2.2.0"
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/preset-env": "^7.1.0",
+    "eslint": "^5.8.0",
+    "eslint-config-artcom": "^0.9.1",
+    "eslint-plugin-import": "^2.14.0"
   },
   "license": "MIT"
 }

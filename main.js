@@ -62,12 +62,12 @@ async function getBootstrapData(bootstrapUrl, log) {
 
 function queryBootstrapData(url) {
   return axios.get(url, { timeout: 2000 })
-    .then((response) => response.data)
+    .then(response => response.data)
     .catch(() => delay(1000).then(() => queryBootstrapData(url)))
 }
 
 function delay(time) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, time)
   })
 }

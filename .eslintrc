@@ -1,4 +1,3 @@
 {
-  "extends": "artcom",
-  "parser": "babel-eslint"
+  "extends": "artcom"
 }
