@@ -1,6 +1,6 @@
-import axios from "axios"
-import topping from "mqtt-topping"
-import bunyan from "bunyan"
+const axios = require("axios")
+const topping = require("mqtt-topping")
+const bunyan = require("bunyan")
 
 export default async function init(serviceId, bootstrapUrl, callback) {
   const log = createLogger(serviceId)
