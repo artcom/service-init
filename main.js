@@ -2,7 +2,7 @@ const axios = require("axios")
 const topping = require("mqtt-topping")
 const bunyan = require("bunyan")
 
-export default async function init(serviceId, bootstrapUrl, callback) {
+module.exports = async function init(serviceId, bootstrapUrl, callback) {
   const log = createLogger(serviceId)
   const bootstrapData = await getBootstrapData(bootstrapUrl, log)
 
