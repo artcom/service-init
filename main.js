@@ -42,7 +42,7 @@ async function getBootstrapData(bootstrapUrl, log) {
   if (bootstrapUrl) {
     log.info({ bootstrapUrl }, "Retrieving bootstrap data")
     const bootstrapData = await queryBootstrapData(bootstrapUrl)
-    log.info({ bootstrapData }, "Bootstrap data retrieved")
+    log.info(bootstrapData, "Bootstrap data retrieved")
 
     return bootstrapData
   } else {
@@ -53,7 +53,7 @@ async function getBootstrapData(bootstrapUrl, log) {
       device: process.env.DEVICE
     }
 
-    log.info({ bootstrapData }, "Using environment bootstrap data")
+    log.info(bootstrapData, "Using environment bootstrap data")
     return bootstrapData
   }
 }
