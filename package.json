@@ -1,6 +1,6 @@
 {
   "name": "service-init",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Custom mqtt, log and bootstrap service initialization",
   "files": [
     "dist/"
