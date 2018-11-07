@@ -81,6 +81,6 @@ function createClientId(serviceId, device) {
 
 function createConfigQuery(gitJsonApiUri) {
   return gitJsonApiUri
-    ? config => axios(`${gitJsonApiUri}/master/config/${config}`).then(({ data }) => data)
+    ? config => axios(`${gitJsonApiUri}/master/configuration/${config}`).then(({ data }) => data)
     : null
 }
