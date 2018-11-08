@@ -10,7 +10,7 @@ module.exports = async function init(serviceId, bootstrapUrl, callback) {
     device,
     tcpBrokerUri,
     httpBrokerUri,
-    gitJsonApiUri
+    configServerUri
   } = bootstrapData
 
   const clientId = createClientId(serviceId, device)
@@ -21,7 +21,7 @@ module.exports = async function init(serviceId, bootstrapUrl, callback) {
   mqttClient.on("close", () => { log.error("Disconnected from Broker") })
   mqttClient.on("error", () => { log.error("Error Connecting to Broker") })
 
-  const queryConfig = createConfigQuery(gitJsonApiUri)
+  const queryConfig = createConfigQuery(configServerUri)
 
   try {
     await callback(log, mqttClient, queryConfig, bootstrapData)
@@ -40,20 +40,20 @@ function createLogger(serviceId) {
 
 async function getBootstrapData(bootstrapUrl, log) {
   if (bootstrapUrl) {
-    log.info({ bootstrapUrl }, "Retrieving bootstrap data")
+    log.info({ bootstrapUrl }, "Retrieving bootstrap data from server")
     const bootstrapData = await queryBootstrapData(bootstrapUrl)
-    log.info(bootstrapData, "Bootstrap data retrieved")
+    log.info(bootstrapData, "Bootstrap data retrieved from server")
 
     return bootstrapData
   } else {
     const bootstrapData = {
       tcpBrokerUri: process.env.TCP_BROKER_URI,
       httpBrokerUri: process.env.HTTP_BROKER_URI,
-      gitJsonApiUri: process.env.GIT_JSON_API_URI,
+      configServerUri: process.env.CONFIG_SERVER_URI,
       device: process.env.DEVICE
     }
 
-    log.info(bootstrapData, "Using environment bootstrap data")
+    log.info(bootstrapData, "Using bootstrap data from environment")
     return bootstrapData
   }
 }
@@ -79,8 +79,8 @@ function createClientId(serviceId, device) {
   }
 }
 
-function createConfigQuery(gitJsonApiUri) {
-  return gitJsonApiUri
-    ? config => axios(`${gitJsonApiUri}/master/configuration/${config}`).then(({ data }) => data)
+function createConfigQuery(configServerUri) {
+  return configServerUri
+    ? config => axios(`${configServerUri}/master/${config}`).then(({ data }) => data)
     : null
 }
