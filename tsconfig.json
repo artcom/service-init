@@ -1,0 +1,17 @@
+{
+  "compileOnSave": true,
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "outDir": "./dist"
+  },
+  "include": [
+    "src/main.ts",
+    "src/types/**/*"
+  ],
+  "exclude": [
+    "node_modules/**/*"
+  ]
+}
