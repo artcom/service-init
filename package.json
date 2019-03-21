@@ -18,10 +18,11 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bunyan": "^1.8.12",
-    "mqtt-topping": "^0.8.8"
+    "mqtt-topping": "^0.8.9"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.6",
+    "@types/events": "^3.0.0",
     "@types/node": "^11.11.4",
     "@typescript-eslint/parser": "^1.4.2",
     "eslint": "^5.15.3",
