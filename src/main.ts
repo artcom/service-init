@@ -17,7 +17,10 @@ type InitCallback = (
   queryConfig: QueryConfig,
   bootstrapData: BootstrapData) => void
 
-export default async function init(serviceId: string, bootstrapUrl: string, callback: InitCallback) {
+export default async function init(
+  serviceId: string,
+  bootstrapUrl: string,
+  callback: InitCallback) {
   const logger = createLogger(serviceId)
   const bootstrapData = await getBootstrapData(bootstrapUrl, logger)
 
