@@ -1,5 +1,5 @@
 import axios from "axios"
-import topping from "mqtt-topping"
+import { ClientWrapper, default as topping } from "mqtt-topping"
 import * as Logger from "bunyan"
 
 interface BootstrapData {
@@ -9,7 +9,15 @@ interface BootstrapData {
   device: string
 }
 
-module.exports = async function init(serviceId: string, bootstrapUrl: string, callback: Function) {
+type QueryConfig = (config : string) => any
+
+type InitCallback = (
+  logger: Logger,
+  mqttClient: ClientWrapper,
+  queryConfig: QueryConfig,
+  bootstrapData: BootstrapData) => void
+
+export async function init(serviceId: string, bootstrapUrl: string, callback: InitCallback) {
   const logger = createLogger(serviceId)
   const bootstrapData = await getBootstrapData(bootstrapUrl, logger)
 
@@ -65,7 +73,7 @@ async function getBootstrapData(bootstrapUrl: string, logger: Logger) : Promise<
   }
 }
 
-function queryBootstrapData(url: string) : Promise<BootstrapData> {
+function queryBootstrapData(url: string): Promise<BootstrapData> {
   return axios.get(url, { timeout: 2000 })
     .then(response => response.data)
     .catch(() => delay(1000).then(() => queryBootstrapData(url)))
@@ -86,7 +94,7 @@ function createClientId(serviceId: string, device: string) {
   }
 }
 
-function createConfigQuery(configServerUri: string) : (config : string) => any {
+function createConfigQuery(configServerUri: string): QueryConfig {
   return configServerUri
     ? config => axios(`${configServerUri}/master/${config}`).then(({ data }) => data)
     : null

@@ -3,7 +3,7 @@
   "version": "0.8.0",
   "description": "Custom mqtt, log and bootstrap service initialization",
   "files": [
-    "main.js"
+    "dist/"
   ],
   "main": "dist/main.js",
   "scripts": {
@@ -17,7 +17,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bunyan": "^1.8.12",
-    "mqtt-topping": "^0.8.3"
+    "mqtt-topping": "^0.8.7"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.6",
